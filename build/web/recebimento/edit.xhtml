@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="../template/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="top">
+        Recebimento para #{mesReferencia}
+    </ui:define>
+
+    <ui:define name="content">
+        <h:panelGrid cellpadding="10" columns="2" >
+            <h:column>
+                <h:outputLabel for="usuarioField" value="Membro: " />
+                <h:selectOneMenu id="usuarioField" required="true" label="Membro"
+                                 value="#{recebimento.usuario}" >
+                    <f:selectItem noSelectionOption="true" /> 
+                    <f:selectItems value="#{usuarioManager.findEntities()}" />
+                </h:selectOneMenu>
+            </h:column>
+            <h:column>
+                <h:outputLabel for="valorField" value="Valor: " />
+                <h:inputText id ="valorField" value="#{recebimento.valor}" required="true" label="Valor" >
+                    <f:converter converterId="FloatConverter" />
+                </h:inputText>
+            </h:column>
+        </h:panelGrid>
+    </ui:define>
+
+    <ui:define name="bottom">
+        <h:button value="Novo Membro" outcome="newUsuario" />
+        <h:commandButton value="Salvar" action="#{recebimentoManager.save(recebimento)}" />        
+        <h:button outcome="cancel" value="Cancelar" />
+    </ui:define>
+
+</ui:composition>

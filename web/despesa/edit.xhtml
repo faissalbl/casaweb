@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="top">
+        Despesa para #{mesReferencia}
+    </ui:define>
+
+    <ui:define name="content">
+        <h:panelGrid cellpadding="10" columns="2" >
+            <h:column>
+                <h:outputLabel for="tipoDespesaField" value="Tipo: " />
+                <h:selectOneMenu id="tipoDespesaField" required="true" label="Tipo"
+                                 value="#{despesa.tipoDespesa}">
+                    <f:selectItem noSelectionOption="true" />
+                    <f:selectItems noSelectionValue="Selecione..."
+                                   value="#{tipoDespesaManager.findEntities()}" />
+                </h:selectOneMenu>
+            </h:column>
+            <h:column>
+                <h:outputLabel for="valorField" value="Valor: " />
+                <h:inputText id ="valorField" required="true" label="Valor"
+                             value="#{despesa.valor}" >
+                    <f:converter converterId="FloatConverter" />
+                </h:inputText>
+            </h:column>
+        </h:panelGrid>
+    </ui:define>
+
+    <ui:define name="bottom">
+        <h:button value="Novo Tipo" outcome="newTipoDespesa" />
+        <h:commandButton value="Salvar" action="#{despesaManager.save(despesa)}" />
+        <h:button outcome="cancel" value="Cancelar" />
+    </ui:define>
+</ui:composition>

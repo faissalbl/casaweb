@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="top">
+        Tipos de Despesa
+    </ui:define>
+
+    <ui:define name="content">
+        <h:outputLabel for="nomeField" value="Nome: " />
+        <h:inputText id="nomeField" value="#{tipoDespesa.nome}" required="true" label="Nome" />
+    </ui:define>
+
+    <ui:define name="bottom">
+        <h:commandButton value="Salvar" action="#{tipoDespesaManager.save(tipoDespesa)}">
+            <f:param name="fromView" value="#{facesContext.externalContext.requestParameterMap['fromView']}" />
+        </h:commandButton>
+        <h:button outcome="cancel" value="Cancelar" />
+    </ui:define>
+
+</ui:composition>

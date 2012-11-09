@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="top">
+        Mes Referencia #{mesReferencia.mes}/#{mesReferencia.ano}
+    </ui:define>
+
+    <ui:define name="content">
+        <h:panelGrid columns="3" cellpadding="40">
+            <h:column>
+                <p>
+                    <h:dataTable cellpadding="10"
+                                 id="despesas" var="d"
+                                 value="#{despesaManager.findEntities()}">
+                        <f:facet name="header"><h:outputLabel value="Despesas" /></f:facet>
+                        <h:column>
+                            <f:facet name="header">Tipo</f:facet>
+                            <h:outputText value="#{d.tipoDespesa.nome}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Valor</f:facet>
+                            <h:outputText value="#{d.valor}">
+                                <f:converter converterId="FloatConverter" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <h:commandLink value="Apagar" action="#{despesaManager.remove(d)}">
+                                <f:ajax render="@form" />
+                            </h:commandLink>
+                        </h:column>
+                        <f:facet name="footer">
+                            <h:outputLabel value="Total: " />
+                            <h:outputLabel value="#{mesReferenciaManager.calcTotalDespesas(despesaManager.findEntities())}">
+                                <f:converter converterId="FloatConverter" />
+                            </h:outputLabel>                            
+                        </f:facet>
+                    </h:dataTable>
+                </p>
+            </h:column>
+
+            <h:column>
+                <h:dataTable cellpadding="10" 
+                             id="recebimentos" var="r"
+                             value="#{recebimentoManager.findEntities()}">
+                    <f:facet name="header">Recebimentos</f:facet>
+                    <h:column>
+                        <f:facet name="header">Membro</f:facet>
+                        <h:outputText value="#{r.usuario.nome}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Valor</f:facet>
+                        <h:outputText value="#{r.valor}">
+                            <f:converter converterId="FloatConverter" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <h:commandLink value="Apagar" action="#{recebimentoManager.remove(r)}">
+                            <f:ajax render="@form" />
+                        </h:commandLink>
+                    </h:column>
+                    <f:facet name="footer">
+                        <h:outputLabel value="Total: " />
+                        <h:outputLabel value="#{mesReferenciaManager.calcTotalRecebimentos(recebimentoManager.findEntities())}">
+                            <f:converter converterId="FloatConverter" />
+                        </h:outputLabel>                            
+                    </f:facet>
+                </h:dataTable><br />
+            </h:column>
+
+            <h:column id="summaryColumn">
+                <h:dataTable cellpadding="10"
+                             var="summary"
+                             value="#{mesReferenciaManager.getSummaryData(mesReferencia)}">
+                    <f:facet name="header">Resumo</f:facet>
+                    <h:column>
+                        <f:facet name="header">Membro</f:facet>
+                        <h:outputText value="#{summary.usuario}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Total Pago</f:facet>
+                        <h:outputText value="#{summary.totalRecebimentos}">
+                            <f:converter converterId="FloatConverter" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Saldo Devedor</f:facet>
+                        <h:outputText value="#{summary.saldoDevedor}">
+                            <f:converter converterId="FloatConverter" />
+                        </h:outputText>
+                    </h:column>
+                </h:dataTable>
+            </h:column>
+        </h:panelGrid>
+    </ui:define>
+
+    <ui:define name="bottom">
+        <h:commandButton value="Nova Despesa" action="#{despesaManager.createNew}" immediate="true" />
+        <h:commandButton value="Novo Recebimento" action="#{recebimentoManager.createNew}" immediate="true" />
+        <h:button outcome="back" value="Voltar" />
+    </ui:define>
+
+</ui:composition>
