@@ -7,8 +7,6 @@ package br.com.fbl.casa.eao;
 import br.com.fbl.casa.model.MesReferencia;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 
 /**
  *
@@ -42,19 +40,4 @@ public class MesReferenciaEAO extends GenericEAO<MesReferencia> {
         return resultList;
     }
 
-    public MesReferencia findByMesAno(Integer[] mesAno) {
-        MesReferencia mesReferencia = null;
-        try {
-            mesReferencia = (MesReferencia)
-                    entityManager.createQuery("select mr from MesReferencia mr where mr.mes = :mes and mr.ano = :ano")
-                        .setParameter("mes", mesAno[0])
-                        .setParameter("ano", mesAno[1])
-                        .getSingleResult();
-        } catch (NoResultException nre) {
-        } catch (NonUniqueResultException nure) {
-            throw new NonUniqueResultException("Há mais de um mês de referência no mesmo ano");
-        }
-        
-        return mesReferencia;        
-    }
 }

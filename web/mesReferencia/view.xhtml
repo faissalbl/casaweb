@@ -100,9 +100,9 @@
     </ui:define>
 
     <ui:define name="bottom">
-        <h:commandButton value="Nova Despesa" action="#{despesaManager.createNew}" immediate="true" />
-        <h:commandButton value="Novo Recebimento" action="#{recebimentoManager.createNew}" immediate="true" />
-        <h:button outcome="back" value="Voltar" />
+        <h:commandLink value="Nova Despesa" action="#{despesaManager.createNew}" immediate="true" />
+        <h:commandLink value="Novo Recebimento" action="#{recebimentoManager.createNew}" immediate="true" />
+        <h:link outcome="back" value="Voltar" />
     </ui:define>
 
 </ui:composition>

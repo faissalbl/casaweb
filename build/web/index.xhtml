@@ -11,11 +11,28 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:inputText id="mesReferencia" required="true" label="mes referencia" value="#{mesReferenciaManager.selectedMesReferencia}" maxlength="7" />
-        <h:message for="mesReferencia" />
+        <h:dataTable id="mesesReferencia" value="#{mesReferenciaMB.mesesReferencia}" var="mr">
+            <h:column>
+                <f:facet name="header">Mês</f:facet>
+                #{mr.mes}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ano</f:facet>
+                #{mr.ano}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ações</f:facet>
+                <h:commandLink value="Selecionar" action="#{mesReferenciaMB.select(mr.id)}" />
+                <h:commandLink value="Excluir" 
+                    onclick="confirm('Tem certeza que deseja excluir mês de referência #{mr.mes}/#{mr.ano}?')"
+                    action="#{mesReferenciaMB.remove(mr.id)}">
+                    <f:ajax render="@form" />
+                </h:commandLink>
+            </h:column>
+        </h:dataTable>
     </ui:define>
 
     <ui:define name="bottom">
-        <h:commandButton value="Ir" action="#{mesReferenciaManager.select()}" />
+        <h:commandLink value="Novo" immediate="true" action="#{mesReferenciaMB.createNew}" />
     </ui:define>
 </ui:composition>

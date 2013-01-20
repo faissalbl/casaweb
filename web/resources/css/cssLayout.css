@@ -25,11 +25,19 @@
     background-color: #CEECF5;
 }
 
+.top * {
+    padding: 5px;
+}
+
 .bottom {
     position: relative;
     padding: 5px;
     margin: 10px 0px 0px 0px;
     background-color: #CEECF5;
+}
+
+.bottom * {
+    padding: 5px;
 }
 
 .center_content {

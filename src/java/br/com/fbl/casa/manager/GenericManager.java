@@ -18,10 +18,6 @@ public abstract class GenericManager<T extends GenericEntity> implements Seriali
     
     protected abstract <E extends GenericEAO> E getEAO();
     
-   public String createNew() {
-        return "edit";
-    }
-    
     public void remove(T entity) {
         getEAO().remove(entity);
     }    

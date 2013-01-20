@@ -31,8 +31,8 @@
 
     <ui:define name="bottom">
         <h:button value="Novo Membro" outcome="newUsuario" />
-        <h:commandButton value="Salvar" action="#{recebimentoManager.save(recebimento)}" />        
-        <h:button outcome="cancel" value="Cancelar" />
+        <h:commandLink value="Salvar" action="#{recebimentoManager.save(recebimento)}" />        
+        <h:link outcome="cancel" value="Cancelar" />
     </ui:define>
 
 </ui:composition>

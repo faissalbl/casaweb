@@ -16,10 +16,10 @@
     </ui:define>
 
     <ui:define name="bottom">
-        <h:commandButton value="Salvar" action="#{tipoDespesaManager.save(tipoDespesa)}">
+        <h:commandLink value="Salvar" action="#{tipoDespesaManager.save(tipoDespesa)}">
             <f:param name="fromView" value="#{facesContext.externalContext.requestParameterMap['fromView']}" />
-        </h:commandButton>
-        <h:button outcome="cancel" value="Cancelar" />
+        </h:commandLink>
+        <h:link outcome="cancel" value="Cancelar" />
     </ui:define>
 
 </ui:composition>

@@ -33,7 +33,7 @@
 
     <ui:define name="bottom">
         <h:button value="Novo Tipo" outcome="newTipoDespesa" />
-        <h:commandButton value="Salvar" action="#{despesaManager.save(despesa)}" />
-        <h:button outcome="cancel" value="Cancelar" />
+        <h:commandLink value="Salvar" action="#{despesaManager.save(despesa)}" />
+        <h:link outcome="cancel" value="Cancelar" />
     </ui:define>
 </ui:composition>
