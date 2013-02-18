@@ -2,23 +2,19 @@ package br.com.fbl.casa.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.persistence.*;
 
-@ManagedBean
-@SessionScoped
 @Entity
-@Table(name = "mes_referencias")
-@NamedQueries(value={
-    @NamedQuery(name="MesReferencia.findMesesReferencia", query="select mr from MesReferencia mr where (:pMes is null or mr.mes = :pMes) and (:pAno is null or mr.ano = :pAno)")
-})
+@Table(name = "MesReferencia")
 public class MesReferencia extends GenericEntity {
 
+    private Long id;
+    private Integer version;
     private Integer mes;
     private Integer ano;
     private List<Despesa> despesas;
     private List<Recebimento> recebimentos;
+    private List<Usuario> usuarios;
 
     public void setMes(Integer mes) {
         this.mes = mes;
@@ -40,11 +36,11 @@ public class MesReferencia extends GenericEntity {
         this.despesas = despesas;
     }
 
-    @OneToMany(mappedBy = "mesReferencia", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "mesReferencia", cascade = CascadeType.ALL)
     public List<Despesa> getDespesas() {
-        if (despesas == null)
+        if (despesas == null) {
             despesas = new ArrayList<Despesa>();
-        
+        }        
         return despesas;
     }
     
@@ -52,14 +48,47 @@ public class MesReferencia extends GenericEntity {
         this.recebimentos = recebimentos;
     }
     
-    @OneToMany(mappedBy = "mesReferencia", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "mesReferencia", cascade = CascadeType.ALL)
     public List<Recebimento> getRecebimentos() {
-        if (recebimentos == null)
+        if (recebimentos == null) {
             recebimentos = new ArrayList<Recebimento>();
+        }
         
         return recebimentos;
     } 
+
+    @ManyToMany
+    @JoinTable(name="MesReferenciaUsuario", 
+            joinColumns={@JoinColumn(name="idMesReferencia")},
+            inverseJoinColumns={@JoinColumn(name="idUsuario")})
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
     
+    @Id
+    @GeneratedValue
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    @Version
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Transient
     public String getDscMesReferencia() {
 

@@ -15,23 +15,22 @@
             <h:column>
                 <h:outputLabel for="usuarioField" value="Membro: " />
                 <h:selectOneMenu id="usuarioField" required="true" label="Membro"
-                                 value="#{recebimento.usuario}" >
+                                 value="#{recebimentoMB.model.usuario}" 
+                                 converter="usuarioConverter" >
                     <f:selectItem noSelectionOption="true" /> 
-                    <f:selectItems value="#{usuarioManager.findEntities()}" />
+                    <f:selectItems value="#{usuarioMB.modelList}" />
                 </h:selectOneMenu>
             </h:column>
             <h:column>
                 <h:outputLabel for="valorField" value="Valor: " />
-                <h:inputText id ="valorField" value="#{recebimento.valor}" required="true" label="Valor" >
-                    <f:converter converterId="FloatConverter" />
-                </h:inputText>
+                <h:inputText id ="valorField" value="#{recebimentoMB.model.valor}" converter="floatConverter"
+                    required="true" label="Valor" />
             </h:column>
         </h:panelGrid>
     </ui:define>
 
     <ui:define name="bottom">
-        <h:button value="Novo Membro" outcome="newUsuario" />
-        <h:commandLink value="Salvar" action="#{recebimentoManager.save(recebimento)}" />        
+        <h:commandLink value="Salvar" action="#{recebimentoMB.save}" />        
         <h:link outcome="cancel" value="Cancelar" />
     </ui:define>
 

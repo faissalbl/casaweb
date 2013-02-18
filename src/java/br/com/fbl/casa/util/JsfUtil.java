@@ -23,6 +23,10 @@ public class JsfUtil {
                 .put(propertyName, value);
     }
     
+    public static void removeSessionProperty(String propertyName) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(propertyName);
+    }
+    
     public static void setRequestProperty(String propertyName, Object value) {
         FacesContext
                 .getCurrentInstance()

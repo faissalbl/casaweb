@@ -2,17 +2,14 @@ package br.com.fbl.casa.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
 import javax.persistence.*;
 
-@ManagedBean
 @Entity
-@Table(name="tipo_despesas")
-@NamedQueries(value = {
-    @NamedQuery(name="TipoDespesa.findTiposDespesa", query="select td from TipoDespesa td where (:pNome is null or td.nome = :pNome)")
-})
+@Table(name="TipoDespesa")
 public class TipoDespesa extends TipoAbstrato {
 
+    private Long id;
+    private Integer version;
     private List<Despesa> despesas;
 
     @OneToMany(mappedBy = "tipoDespesa")
@@ -26,6 +23,26 @@ public class TipoDespesa extends TipoAbstrato {
 
     public void setDespesas(List<Despesa> despesas) {
         this.despesas = despesas;
+    }
+
+    @Id
+    @GeneratedValue
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    @Version
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override

@@ -12,18 +12,23 @@
 
     <ui:define name="content">
         <h:dataTable cellpadding="5px" 
-                     rendered="#{not empty usuarioManager.findEntities()}"
-                     value="#{usuarioManager.findEntities()}"
+                     rendered="#{not empty usuarioMB.modelList}"
+                     value="#{usuarioMB.modelList}"
                      var="u">
             <h:column>#{u.nome}</h:column>
             <h:column>
-                <h:commandLink value="Apagar" action="#{usuarioManager.remove(u)}" />
+                <h:commandLink value="Editar" action="edit">
+                    <f:param name="idUsuario" value="#{u.id}" />
+                </h:commandLink>
+                <h:commandLink value="Excluir" onclick="return confirm('Tem certeza que deseja excluir o usuário #{u.nome}?')" action="#{usuarioMB.remove(u.id)}">
+                    <f:ajax render="@form" />
+                </h:commandLink>    
             </h:column>
         </h:dataTable>
     </ui:define>
     
     <ui:define name="bottom">
-        <h:commandLink value="Novo" action="#{usuarioManager.createNew}" />
+        <h:commandLink value="Novo" action="edit" />
     </ui:define>
 
 </ui:composition>

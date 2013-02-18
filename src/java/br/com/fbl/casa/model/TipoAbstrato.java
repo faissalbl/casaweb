@@ -1,6 +1,5 @@
 package br.com.fbl.casa.model;
 
-import javax.faces.context.FacesContext;
 import javax.persistence.MappedSuperclass;
 
 @SuppressWarnings("serial")

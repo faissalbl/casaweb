@@ -8,6 +8,23 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="default.css" />
         <h:outputStylesheet library="css" name="cssLayout.css" />
+        <script>
+            function handleDisableButton(data) {
+                if (data.source.type != "submit") {
+                    return;
+                }
+
+                switch (data.status) {
+                    case "begin":
+                        data.source.disabled = true;
+                        break;
+                    case "complete":
+                        data.source.disabled = false;
+                        break;
+                }    
+            }
+            jsf.ajax.addOnEvent(handleDisableButton);
+        </script>
         <title>Facelets Template</title>
     </h:head>
 
@@ -15,12 +32,15 @@
 
         <div class="menu">
             <h:link outcome="home" value="Página Inicial" />
+            <h:link outcome="usuario" value="Cadastro de Usuários" />
+            <h:link outcome="tipoDespesa" value="Cadastro de Tipos de Despesa" />
         </div>
         <div class="top">
             <ui:insert name="top" />
         </div>
         <h:form id="form">
             <div class="center_content">
+                <h:messages globalOnly="true" errorClass="errorMsg" />
                 <ui:insert name="content">Content</ui:insert>
             </div>
             <div class="bottom">

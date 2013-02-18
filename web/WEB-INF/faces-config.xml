@@ -12,12 +12,20 @@
             <from-outcome>home</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>usuario</from-outcome>
+            <to-view-id>/usuario/list.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>tipoDespesa</from-outcome>
+            <to-view-id>/tipoDespesa/list.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>new</from-outcome>
+            <from-action>#{mesReferenciaMB.createNew}</from-action>
             <to-view-id>/mesReferencia/edit.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
@@ -33,22 +41,20 @@
     <navigation-rule>
         <from-view-id>/mesReferencia/edit.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{mesReferenciaManager.save(mesReferencia)}</from-action>
-            <from-outcome>persisted</from-outcome>
-            <to-view-id>/mesReferencia/view.xhtml</to-view-id>
+            <from-action>#{mesReferenciaMB.save}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
         <from-view-id>/mesReferencia/view.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{despesaManager.createNew}</from-action>
-            <from-outcome>edit</from-outcome>
+            <from-outcome>despesa</from-outcome>
             <to-view-id>/despesa/edit.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-action>#{recebimentoManager.createNew}</from-action>
-            <from-outcome>edit</from-outcome>
+            <from-outcome>recebimento</from-outcome>
             <to-view-id>/recebimento/edit.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
@@ -58,34 +64,32 @@
     </navigation-rule>
     
     <navigation-rule>
+        <from-view-id>/tipoDespesa/list.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>edit</from-outcome>
+            <to-view-id>/tipoDespesa/edit.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
         <from-view-id>/tipoDespesa/edit.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{tipoDespesaManager.save(tipoDespesa)}</from-action>
-            <from-outcome>persisted</from-outcome>
+            <from-action>#{tipoDespesaMB.save}</from-action>
+            <from-outcome>success</from-outcome>
             <to-view-id>/tipoDespesa/list.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>cancel</from-outcome>
-            <to-view-id>/despesa/edit.xhtml</to-view-id>
+            <to-view-id>/tipoDespesa/list.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
         <from-view-id>/despesa/edit.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{despesaManager.save(despesa)}</from-action>
-            <from-outcome>persisted</from-outcome>
+            <from-action>#{despesaMB.save}</from-action>
+            <from-outcome>success</from-outcome>
             <to-view-id>/mesReferencia/view.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>newTipoDespesa</from-outcome>
-            <to-view-id>/tipoDespesa/edit.xhtml</to-view-id>
-            <redirect>
-                <view-param>
-                    <name>fromView</name>
-                    <value>/despesa/edit.xhtml</value>
-                </view-param>
-            </redirect>            
         </navigation-case>
         <navigation-case>
             <from-outcome>cancel</from-outcome>
@@ -96,19 +100,9 @@
     <navigation-rule>
         <from-view-id>/recebimento/edit.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{recebimentoManager.save(recebimento)}</from-action>
-            <from-outcome>persisted</from-outcome>
+            <from-action>#{recebimentoMB.save}</from-action>
+            <from-outcome>success</from-outcome>
             <to-view-id>/mesReferencia/view.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>newUsuario</from-outcome>
-            <to-view-id>/usuario/edit.xhtml</to-view-id>
-            <redirect>
-                <view-param>
-                    <name>fromView</name>
-                    <value>/recebimento/edit.xhtml</value>
-                </view-param>
-            </redirect>            
         </navigation-case>
         <navigation-case>
             <from-outcome>cancel</from-outcome>
@@ -117,22 +111,24 @@
     </navigation-rule>
     
     <navigation-rule>
+        <from-view-id>/usuario/list.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>edit</from-outcome>
+            <to-view-id>/usuario/edit.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
         <from-view-id>/usuario/edit.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{usuarioManager.save(usuario)}</from-action>
-            <from-outcome>persisted</from-outcome>
+            <from-action>#{usuarioMB.save}</from-action>
+            <from-outcome>success</from-outcome>
             <to-view-id>/usuario/list.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>cancel</from-outcome>
-            <to-view-id>/recebimento/edit.xhtml</to-view-id>
+            <to-view-id>/usuario/list.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    
-    <converter>
-        <description>Converter for Float Numbers</description>
-        <converter-id>FloatConverter</converter-id>
-        <converter-class>br.com.fbl.casa.converter.FloatConverter</converter-class>        
-    </converter>
     
 </faces-config>

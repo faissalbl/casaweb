@@ -1,17 +1,14 @@
 package br.com.fbl.casa.model;
 
-import javax.faces.bean.ManagedBean;
 import javax.persistence.*;
 
-@ManagedBean
 @Entity
-@Table(name = "usuarios")
-@NamedQueries(value = {
-    @NamedQuery(name="Usuario.findUsuarios", query="select u from Usuario u where (:pNome is null or u.nome = :pNome) order by u.nome")
-})
+@Table(name = "Usuario")
 public class Usuario extends GenericEntity {
 
     // seam-gen attributes (you should probably edit these)
+    private Long id;
+    private Integer version;
     private String nome;
     private String password;
     private Boolean administrator;
@@ -25,13 +22,13 @@ public class Usuario extends GenericEntity {
         this.nome = nome;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Column
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setAdministrator(Boolean administrator) {
@@ -45,6 +42,26 @@ public class Usuario extends GenericEntity {
         return administrator;
     }
     
+    @Id
+    @GeneratedValue
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    @Version
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         return getNome();

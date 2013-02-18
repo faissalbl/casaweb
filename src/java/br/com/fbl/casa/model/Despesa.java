@@ -1,14 +1,14 @@
 package br.com.fbl.casa.model;
 
-import javax.faces.bean.ManagedBean;
 import javax.persistence.*;
 
 @SuppressWarnings("serial")
-@ManagedBean
 @Entity
-@Table(name = "despesas")
+@Table(name = "Despesa")
 public class Despesa extends GenericMesReferenciaContent {
 
+    private Long id;
+    private Integer version;
     private TipoDespesa tipoDespesa;
     private Double valor;
 
@@ -21,12 +21,32 @@ public class Despesa extends GenericMesReferenciaContent {
     }
 
     @ManyToOne
-    @JoinColumn(name = "tipo_despesa_id", nullable = false)
+    @JoinColumn(name = "idTipoDespesa", nullable = false)
     public TipoDespesa getTipoDespesa() {
         return tipoDespesa;
     }
 
     public void setTipoDespesa(TipoDespesa tipoDespesa) {
         this.tipoDespesa = tipoDespesa;
+    }
+    
+    @Id
+    @GeneratedValue
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    @Version
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

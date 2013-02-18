@@ -15,25 +15,22 @@
             <h:column>
                 <h:outputLabel for="tipoDespesaField" value="Tipo: " />
                 <h:selectOneMenu id="tipoDespesaField" required="true" label="Tipo"
-                                 value="#{despesa.tipoDespesa}">
+                                 value="#{despesaMB.model.tipoDespesa}"
+                                 converter="tipoDespesaConverter">
                     <f:selectItem noSelectionOption="true" />
-                    <f:selectItems noSelectionValue="Selecione..."
-                                   value="#{tipoDespesaManager.findEntities()}" />
+                    <f:selectItems value="#{tipoDespesaMB.modelList}" />
                 </h:selectOneMenu>
             </h:column>
             <h:column>
                 <h:outputLabel for="valorField" value="Valor: " />
                 <h:inputText id ="valorField" required="true" label="Valor"
-                             value="#{despesa.valor}" >
-                    <f:converter converterId="FloatConverter" />
-                </h:inputText>
+                             value="#{despesaMB.model.valor}" converter="floatConverter" />
             </h:column>
         </h:panelGrid>
     </ui:define>
 
     <ui:define name="bottom">
-        <h:button value="Novo Tipo" outcome="newTipoDespesa" />
-        <h:commandLink value="Salvar" action="#{despesaManager.save(despesa)}" />
+        <h:commandLink value="Salvar" action="#{despesaMB.save}" />
         <h:link outcome="cancel" value="Cancelar" />
     </ui:define>
 </ui:composition>

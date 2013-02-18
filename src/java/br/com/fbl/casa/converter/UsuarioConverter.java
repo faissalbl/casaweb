@@ -4,9 +4,9 @@
  */
 package br.com.fbl.casa.converter;
 
-import br.com.fbl.casa.eao.UsuarioEAO;
+import br.com.fbl.casa.manager.UsuarioMB;
 import br.com.fbl.casa.model.Usuario;
-import java.io.Serializable;
+import javax.el.ELContext;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -16,26 +16,22 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Faissal
  */
-@FacesConverter(forClass=Usuario.class)
-public class UsuarioConverter implements Converter, Serializable {
-    
-    private UsuarioEAO usuarioEAO;
-    
-    public UsuarioConverter() {
-        usuarioEAO = new UsuarioEAO();
-    }
+@FacesConverter(value = "usuarioConverter")
+public class UsuarioConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value == null) return null;
-        usuarioEAO.getUsuarioExample().setNome(value);
-        return usuarioEAO.getResultList().get(0);
+        Usuario u = null;
+        if (value != null || value.isEmpty()) {
+            ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+            u = ((UsuarioMB) elContext.getELResolver().getValue(elContext, null, "usuarioMB")).find(Long.valueOf(value));
+        }
+        return u;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if (value == null) return null;
-        return ((Usuario)value).getNome();
+        return value != null ? ((Usuario) value).getId().toString() : "";
     }
     
 }

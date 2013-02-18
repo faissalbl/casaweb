@@ -12,18 +12,20 @@
 
     <ui:define name="content">
         <h:dataTable cellpadding="5px" 
-                     rendered="#{not empty tipoDespesaManager.findEntities()}"
-                     value="#{tipoDespesaManager.findEntities()}"
+                     rendered="#{not empty tipoDespesaMB.modelList}"
+                     value="#{tipoDespesaMB.modelList}"
                      var="td">
             <h:column>#{td.nome}</h:column>
             <h:column>
-                <h:commandLink value="Apagar" action="#{tipoDespesaManager.remove(td)}" />
+                <h:commandLink value="Excluir" onclick="return confirm('Tem certeza que deseja excluir o tipo de despesa #{td.nome}?')" action="#{tipoDespesaMB.remove(td.id)}">
+                    <f:ajax render="@form" />
+                </h:commandLink>
             </h:column>
         </h:dataTable>
     </ui:define>
 
     <ui:define name="bottom">
-        <h:commandLink value="Novo" action="#{tipoDespesaManager.createNew}" />
+        <h:commandLink value="Novo" action="edit" />
     </ui:define>
 
 </ui:composition>

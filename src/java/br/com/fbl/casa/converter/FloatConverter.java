@@ -9,11 +9,13 @@ import java.math.RoundingMode;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 /**
  *
  * @author Faissal
  */
+@FacesConverter(value = "floatConverter")
 public class FloatConverter implements Converter {
 
     @Override

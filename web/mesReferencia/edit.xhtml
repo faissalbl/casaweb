@@ -3,25 +3,38 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/template/template.xhtml"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="top">
         Mes Referencia
     </ui:define>
 
     <ui:define name="content">
-            <div>
-                <h:outputLabel for="mesField" value="Mes: " />
-                <h:inputText id="mesField" value="#{mesReferencia.mes}" />
-            </div>
-            <div>
+        <h:panelGrid columns="3">
+            <h:panelGroup>
+                <h:outputLabel for="mesField" value="Mês: " />
+                <h:inputText id="mesField" value="#{mesReferenciaMB.model.mes}" validator="mesValidator" required="true" label="Mês" />
+                <h:message for="mesField" errorClass="errorMsg" />                
+            </h:panelGroup>
+            <h:panelGroup>
                 <h:outputLabel for="anoField" value="Ano: " />
-                <h:inputText id="anoField" value="#{mesReferencia.ano}" />
-            </div>
+                <h:inputText id="anoField" value="#{mesReferenciaMB.model.ano}" required="true" label="Ano" />
+                <h:message for="anoField" errorClass="errorMsg" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:outputLabel for="membros" value="Membros: " />
+                <h:selectManyCheckbox id="membros" 
+                    value="#{mesReferenciaMB.model.usuarios}"
+                    converter="usuarioConverter" >
+                    <f:selectItems value="#{usuarioMB.modelList}" />
+                </h:selectManyCheckbox>
+            </h:panelGroup>    
+        </h:panelGrid>
     </ui:define>
     
     <ui:define name="bottom">
-        <h:commandLink value="Salvar" action="#{mesReferenciaManager.save(mesReferencia)}" />
+        <h:commandLink value="Salvar" action="#{mesReferenciaMB.save}" />
     </ui:define>
 
 </ui:composition>

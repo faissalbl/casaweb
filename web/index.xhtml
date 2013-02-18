@@ -11,7 +11,8 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:dataTable id="mesesReferencia" value="#{mesReferenciaMB.mesesReferencia}" var="mr">
+        <h:dataTable id="mesesReferencia" value="#{mesReferenciaMB.modelList}" var="mr"
+                     rendered="#{not empty mesReferenciaMB.modelList}">
             <h:column>
                 <f:facet name="header">Mês</f:facet>
                 #{mr.mes}
@@ -22,9 +23,14 @@
             </h:column>
             <h:column>
                 <f:facet name="header">Ações</f:facet>
-                <h:commandLink value="Selecionar" action="#{mesReferenciaMB.select(mr.id)}" />
+                <h:commandLink value="Abrir" action="#{mesReferenciaMB.view(mr.id)}">
+                    <f:ajax  />
+                </h:commandLink>
+                <h:commandLink value="Editar" action="#{mesReferenciaMB.edit(mr.id)}">
+                    <f:ajax  />
+                </h:commandLink>
                 <h:commandLink value="Excluir" 
-                    onclick="confirm('Tem certeza que deseja excluir mês de referência #{mr.mes}/#{mr.ano}?')"
+                    onclick="return confirm('Tem certeza que deseja excluir mês de referência #{mr.mes}/#{mr.ano}?')"
                     action="#{mesReferenciaMB.remove(mr.id)}">
                     <f:ajax render="@form" />
                 </h:commandLink>
@@ -33,6 +39,8 @@
     </ui:define>
 
     <ui:define name="bottom">
-        <h:commandLink value="Novo" immediate="true" action="#{mesReferenciaMB.createNew}" />
+        <h:commandLink value="Novo" immediate="true" action="#{mesReferenciaMB.createNew}">
+            <f:ajax />
+        </h:commandLink>    
     </ui:define>
 </ui:composition>

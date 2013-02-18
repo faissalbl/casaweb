@@ -31,3 +31,7 @@ a:link:hover, a:visited:hover  {
 td, td *{
     padding: 5px;
 }
+
+.errorMsg {
+    color: red;
+}

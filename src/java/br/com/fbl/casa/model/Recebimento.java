@@ -1,14 +1,14 @@
 package br.com.fbl.casa.model;
 
-import javax.faces.bean.ManagedBean;
 import javax.persistence.*;
 
 @SuppressWarnings("serial")
-@ManagedBean
 @Entity
-@Table(name = "recebimentos")
+@Table(name = "Recebimento")
 public class Recebimento extends GenericMesReferenciaContent {
 
+    private Long id;
+    private Integer version;
     private Usuario usuario;
     private TipoDespesa tipoDespesa;
     private Double valor;
@@ -18,7 +18,7 @@ public class Recebimento extends GenericMesReferenciaContent {
     }
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "idUsuario", nullable = false)
     public Usuario getUsuario() {
         return usuario;
     }
@@ -32,7 +32,7 @@ public class Recebimento extends GenericMesReferenciaContent {
     }
 
     @ManyToOne
-    @JoinColumn(name = "tipo_despesa_id")
+    @JoinColumn(name = "idTipoDespesa")
     public TipoDespesa getTipoDespesa() {
         return tipoDespesa;
     }
@@ -40,4 +40,25 @@ public class Recebimento extends GenericMesReferenciaContent {
     public void setTipoDespesa(TipoDespesa tipoDespesa) {
         this.tipoDespesa = tipoDespesa;
     }
+
+    @Id
+    @GeneratedValue
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    @Version
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
 }

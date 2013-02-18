@@ -13,14 +13,12 @@
     <ui:define name="content">
         <h:panelGrid columns="2">
             <h:outputLabel for="nomeField" value="Nome: " />
-            <h:inputText id="nomeField" value="#{usuario.nome}" required="true" label="Nome" />
+            <h:inputText id="nomeField" value="#{usuarioMB.model.nome}" required="true" label="Nome" />
         </h:panelGrid>
     </ui:define>
 
     <ui:define name="bottom">
-        <h:commandLink value="Salvar" action="#{usuarioManager.save(usuario)}">
-            <f:param name="fromView" value="#{facesContext.externalContext.requestParameterMap['fromView']}" />
-        </h:commandLink>
+        <h:commandLink value="Salvar" action="#{usuarioMB.save}" />
         <h:link outcome="cancel" value="Cancelar" />
     </ui:define>
 </ui:composition>

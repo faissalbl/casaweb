@@ -18,7 +18,7 @@ public abstract class GenericMesReferenciaContent extends GenericEntity {
     private MesReferencia mesReferencia;
     
     @ManyToOne
-    @JoinColumn(name = "mes_referencia_id", nullable = false)
+    @JoinColumn(name = "idMesReferencia", nullable = false)
     public MesReferencia getMesReferencia() {
         return mesReferencia;
     }
