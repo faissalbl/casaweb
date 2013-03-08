@@ -11,20 +11,23 @@ import br.com.fbl.casa.model.Usuario;
 import br.com.fbl.casa.util.JsfUtil;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
 @ManagedBean
+@ViewScoped
 public class MesReferenciaMB extends CrudMB<MesReferencia> {
     
     private List<Map<String, String>> summaryData;
     
-    @Override
+    @PostConstruct
     public void onPostConstruct() {
-        super.onPostConstruct();
         Object idMesReferencia = JsfUtil.getSessionProperty(ID_MES_REFERENCIA_KEY);
         if (idMesReferencia != null) {
             setModel(find(idMesReferencia));
@@ -67,7 +70,7 @@ public class MesReferenciaMB extends CrudMB<MesReferencia> {
                 double rateio = totalDespesas / new Double(membros.size());            
                 for (Usuario u: membros) {
                     Map<String, String> data = new LinkedHashMap<String, String>();
-                    double totalRecebimentos = calcTotalRecebimentos();
+                    double totalRecebimentos = calcTotalRecebimentos(u);
                     data.put("usuario", u.getNome());
                     data.put("totalRecebimentos", String.valueOf(totalRecebimentos));
                     data.put("saldoDevedor", String.valueOf(rateio - totalRecebimentos));
@@ -80,7 +83,9 @@ public class MesReferenciaMB extends CrudMB<MesReferencia> {
 
     public double calcTotalDespesas() {
         double total = 0;
-        Collection<Despesa> despesas = findAll(Despesa.class);
+        Map<String, Object> queryParams = new HashMap<String, Object>();
+        queryParams.put("mesReferencia", getModel());
+        Collection<Despesa> despesas = findAll(Despesa.class, queryParams);
         if (despesas != null) {
             for (Despesa d: despesas) {
                 total += d.getValor();
@@ -88,10 +93,19 @@ public class MesReferenciaMB extends CrudMB<MesReferencia> {
         }
         return total;
     }
-
+    
     public double calcTotalRecebimentos() {
+        return calcTotalRecebimentos(null);
+    }
+
+    private double calcTotalRecebimentos(Usuario usuario) {
         double total = 0;
-        Collection<Recebimento> recebimentos = findAll(Recebimento.class);
+        Map<String, Object> queryParams = new HashMap<String, Object>();
+        queryParams.put("mesReferencia", getModel());
+        if (usuario != null) {
+            queryParams.put("usuario", usuario);
+        }        
+        Collection<Recebimento> recebimentos = findAll(Recebimento.class, queryParams);
         if (recebimentos != null) {
             for (Recebimento r: recebimentos) {
                 total += r.getValor();

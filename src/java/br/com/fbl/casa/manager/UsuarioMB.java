@@ -5,15 +5,17 @@
 package br.com.fbl.casa.manager;
 
 import br.com.fbl.casa.model.Usuario;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
+@ViewScoped
 public class UsuarioMB extends CrudMB<Usuario> {
     
-    @Override
+    @PostConstruct
     public void onPostConstruct() {
-        super.onPostConstruct();
         String idUsuario = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idUsuario");
         if (idUsuario != null) {
             setModel(find(Long.valueOf(idUsuario)));

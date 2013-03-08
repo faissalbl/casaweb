@@ -4,43 +4,36 @@
  */
 package br.com.fbl.casa.manager;
 
+import br.com.fbl.casa.facade.CrudFacadeLocal;
 import br.com.fbl.casa.model.GenericEntity;
+import br.com.fbl.casa.persistence.facade.exception.PersistenceRollbackException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.RollbackException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
  *
  * @author Faissal
  */
-//FIXME habilitar JTA Transactions
-//FIXME passar toda lógica de negócio e dados para uma outra camada. Preferencialmente EJB.
-@ViewScoped
 public abstract class CrudMB<T extends GenericEntity> implements Serializable {
     
     protected static final String ID_MES_REFERENCIA_KEY = "idMesReferencia";
     
-    protected EntityManager entityManager;
+    @EJB
+    private CrudFacadeLocal crudFacade;
     
     private T model;
     private Collection<T> modelList;
     private Map<String, Object> queryParams;
     
     public T find(Object id) {
-        return entityManager.find((Class<T>)getModel().getClass(), id);
+        return crudFacade.find((Class<T>)getModel().getClass(), id);
     }
     
     /**
@@ -50,86 +43,34 @@ public abstract class CrudMB<T extends GenericEntity> implements Serializable {
      * @return the entity of the type specified with the id specified
      */
     public <E extends GenericEntity> E find(Class<E> clazz, Object id) {
-        return entityManager.find(clazz, id);
-    }
-    
-    public T refresh(T entity) {
-        entityManager.refresh(entity);
-        return entity;
-    }
-    
-    /**
-     * Refresh an entity of any type specified.
-     * @param entity entity to be refreshed
-     * @return the refreshed entity
-     */
-    public <E extends GenericEntity> E refreshOtherEntity(E entity) {
-        entityManager.refresh(entity);
-        return entity;
+        return crudFacade.find(clazz, id);
     }
     
     /**
      * Finds all entities constrained by the <code>queryParams</code> content.
      */
     public Collection<T> findAll() {
-        return findAll((Class<T>)getModel().getClass());
+        return crudFacade.findAll((Class<T>)getModel().getClass(), getQueryParams());
+    }
+    
+    public <E extends GenericEntity> Collection<E> findAll(Class<E> clazz, Map<String, Object> queryParams) {
+        return crudFacade.findAll(clazz, queryParams);
     }
 
-    /**
-     * Finds all entities constrained by the <code>queryParams</code> content.
-     * @param clazz The type of entity to find.
-     */
-    public <E extends GenericEntity> Collection<E> findAll(Class<E> clazz) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<E> cq = cb.createQuery(clazz);
-        Root<E> root = cq.from(clazz);
-        cq.select(root);
-        if (!getQueryParams().isEmpty()) {
-            for (String paramKey: queryParams.keySet()) {
-                cq.where(cb.equal(root.get(paramKey), queryParams.get(paramKey)));
-            }
-        }
-        TypedQuery<E> query = entityManager.createQuery(cq);
-        return query.getResultList();        
-    }
-    
     public String save() {
-        return save(getModel());
-    }
-    
-    public <E extends GenericEntity> String save(E entity) {
-        entityManager.getTransaction().begin();
-        if (entity.getId() == null) {
-            entityManager.persist(entity);
-        } else {
-            entityManager.merge(entity);
-        }
-        entityManager.getTransaction().commit();
+        crudFacade.save(getModel());
         return "success";
     }
     
     public void remove(Long idEntity) {
-        T entity = find(idEntity);
-        if (entity != null) {
-            remove(entity);
-        }
-        /* necessario para que o sistema busque de novo os registros */
-        setModelList(null);
-    }
-    
-    private void remove(T entity) {
         try {
-            entityManager.getTransaction().begin();
-            entityManager.remove(entity);
-            entityManager.getTransaction().commit();
-        } catch(RollbackException e) {
-            System.err.println(e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não foi possível excluir o registro, pois está sendo utilizado por outro registro.", "Não foi possível excluir o registro, pois está sendo utilizado por outro registro."));
+            crudFacade.remove(getModel().getClass(), idEntity);
+            /* necessario para que o sistema busque de novo os registros */
+            setModelList(null);
+        } catch (PersistenceRollbackException ex) {
+            Logger.getLogger(CrudMB.class.getName()).log(Level.SEVERE, null, ex);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ex.getMessage()));
         }
-    }
-    
-    public void clearBuffer() {
-        entityManager.clear();
     }
     
     public T getModel() {
@@ -167,14 +108,4 @@ public abstract class CrudMB<T extends GenericEntity> implements Serializable {
         this.queryParams = queryParams;
     }    
     
-    @PostConstruct
-    public void onPostConstruct() {
-        entityManager = Persistence.createEntityManagerFactory("casawebPU").createEntityManager();
-    }
-    
-    @PreDestroy
-    public void onPreDestroy() {
-        entityManager.close();
-    }
-
 }
