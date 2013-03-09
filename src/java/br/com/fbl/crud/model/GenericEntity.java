@@ -1,4 +1,4 @@
-package br.com.fbl.casa.model;
+package br.com.fbl.crud.model;
 
 import java.io.Serializable;
 import javax.persistence.MappedSuperclass;

@@ -9,6 +9,7 @@ import br.com.fbl.casa.model.MesReferencia;
 import br.com.fbl.casa.model.Recebimento;
 import br.com.fbl.casa.model.Usuario;
 import br.com.fbl.casa.util.JsfUtil;
+import br.com.fbl.crud.mb.CrudMB;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

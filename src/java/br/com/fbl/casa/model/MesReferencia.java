@@ -1,5 +1,6 @@
 package br.com.fbl.casa.model;
 
+import br.com.fbl.crud.model.GenericEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;

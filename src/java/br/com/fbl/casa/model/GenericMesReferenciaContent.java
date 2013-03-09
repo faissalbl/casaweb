@@ -4,6 +4,7 @@
  */
 package br.com.fbl.casa.model;
 
+import br.com.fbl.crud.model.GenericEntity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;

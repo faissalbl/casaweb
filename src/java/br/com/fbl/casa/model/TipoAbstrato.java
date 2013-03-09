@@ -1,5 +1,6 @@
 package br.com.fbl.casa.model;
 
+import br.com.fbl.crud.model.GenericEntity;
 import javax.persistence.MappedSuperclass;
 
 @SuppressWarnings("serial")

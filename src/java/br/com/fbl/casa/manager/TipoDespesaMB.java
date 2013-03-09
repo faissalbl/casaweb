@@ -5,6 +5,7 @@
 package br.com.fbl.casa.manager;
 
 import br.com.fbl.casa.model.TipoDespesa;
+import br.com.fbl.crud.mb.CrudMB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 

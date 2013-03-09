@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.fbl.casa.facade;
+package br.com.fbl.crud.facade;
 
-import br.com.fbl.casa.model.GenericEntity;
-import br.com.fbl.casa.persistence.facade.exception.PersistenceRollbackException;
+import br.com.fbl.crud.model.GenericEntity;
+import br.com.fbl.crud.facade.persistence.exception.PersistenceRollbackException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -73,7 +73,7 @@ public class CrudFacade implements CrudFacadeLocal {
         try {
             entityManager.remove(entity);
         } catch(RollbackException e) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"Não foi possível excluir o registro, pois está sendo utilizado por outro registro. \n" + e.getMessage());
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"Não foi possível excluir o registro, pois está sendo utilizado por outro registro. \n {0}", e.getMessage());
             throw new PersistenceRollbackException("Não foi possível excluir o registro, pois está sendo utilizado por outro registro.");
         }
     }

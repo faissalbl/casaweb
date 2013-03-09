@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.fbl.casa.manager;
+package br.com.fbl.crud.mb;
 
-import br.com.fbl.casa.facade.CrudFacadeLocal;
-import br.com.fbl.casa.model.GenericEntity;
-import br.com.fbl.casa.persistence.facade.exception.PersistenceRollbackException;
+import br.com.fbl.crud.facade.CrudFacadeLocal;
+import br.com.fbl.crud.model.GenericEntity;
+import br.com.fbl.crud.facade.persistence.exception.PersistenceRollbackException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
